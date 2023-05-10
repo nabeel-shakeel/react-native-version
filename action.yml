@@ -1,0 +1,46 @@
+name: 'React Native Version'
+description: 'Composite Action for React Native Version Bump and GitHub Release'
+author: 'Nabeel Shakeel'
+branding:
+  icon: check-circle
+  color: blue
+  
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Use Node.js 18
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+        cache: 'yarn'
+
+    - name: Install yarn
+      run: npm install -g yarn
+
+    - name: Install node_modules
+      run: yarn ci
+
+    - name: Automated Version Bump
+      uses: paramsinghvc/gh-action-bump-version@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag-prefix: ${{ github.event.inputs.tag-prefix }}
+        tag-suffix: ${{ github.event.inputs.tag-suffix }}
+
+    - name: Sync React Native version with package.json Version
+      run: npx react-native-version
+
+    - name: Commit Version Sync Changes
+      uses: EndBug/add-and-commit@v9
+      with:
+        message: ${{ github.event.inputs.commit-message }}
+
+    - name: Create Automated Release
+      uses: marvinpinto/action-automatic-releases@latest
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        automatic_release_tag: ${{ github.event.inputs.automatic_release_tag }}

@@ -4,6 +4,11 @@ author: 'Nabeel Shakeel'
 branding:
   icon: check-circle
   color: blue
+
+inputs:
+  repo_token:
+    description: "GitHub secret token"
+    required: true
   
 runs:
   using: "composite"
@@ -11,22 +16,10 @@ runs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Use Node.js 18
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18
-        cache: 'yarn'
-
-    - name: Install yarn
-      run: npm install -g yarn
-
-    - name: Install node_modules
-      run: yarn ci
-
     - name: Automated Version Bump
       uses: paramsinghvc/gh-action-bump-version@master
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ inputs.repo_token }}
       with:
         tag-prefix: ${{ github.event.inputs.tag-prefix }}
         tag-suffix: ${{ github.event.inputs.tag-suffix }}
@@ -42,5 +35,5 @@ runs:
     - name: Create Automated Release
       uses: marvinpinto/action-automatic-releases@latest
       with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        repo_token: ${{ inputs.repo_token }}
         automatic_release_tag: ${{ github.event.inputs.automatic_release_tag }}

@@ -21,10 +21,10 @@ runs:
       id: json-input
       run: |
         # Using @actions/core package to use the fromJson function
-        npm install -g @actions/core
+        npm install @actions/core
 
         # Parsing the JSON input parameter
-        inputs=$(echo "${{ inputs.supported_parameters }}" | npx @actions/core/lib/parser.js -j)
+        inputs=$(echo "${{ inputs.supported_parameters }}" | node /home/runner/work/_temp/_github_workflow/node_modules/@actions/core/lib/parser.js -j)
 
         # Output the parsed parameter value as a JSON string
         echo "::set-output name=inputs::$(echo "$inputs" | jq -r '.')"

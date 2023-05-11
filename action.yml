@@ -9,17 +9,29 @@ inputs:
   repo_token:
     description: "GitHub secret token"
     required: true
+  supported_parameters:
+    description: "A key-value pair of supported parameters"
+    required: false
+    default: '{}'
   
 runs:
   using: "composite"
   steps:
+  
+    - name: Parse supported parameters
+      id: json-input
+      run: |
+        # Parse the JSON input parameters
+        inputs=$(echo "${{ inputs.my-supported_parameters }}" | fromJson)
+        echo "Input parameters - '${inputs}'."
+
     - name: Automated Version Bump
       uses: paramsinghvc/gh-action-bump-version@master
       env:
         GITHUB_TOKEN: ${{ inputs.repo_token }}
       with:
-        tag-prefix: ${{ github.event.inputs.tag-prefix }}
-        tag-suffix: ${{ github.event.inputs.tag-suffix }}
+        tag-prefix: ${{ steps.json-input.outputs.tag-prefix }}
+        tag-suffix: ${{ steps.json-input.outputs.tag-suffix }}
 
     - name: Sync React Native version with package.json Version
       run: npx react-native-version
@@ -34,4 +46,4 @@ runs:
       uses: marvinpinto/action-automatic-releases@latest
       with:
         repo_token: ${{ inputs.repo_token }}
-        automatic_release_tag: ${{ github.event.inputs.automatic_release_tag }}
+        automatic_release_tag: ${{ steps.json-input.outputs.automatic_release_tag }}

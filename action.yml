@@ -27,10 +27,10 @@ runs:
       id: json-input
       run: |
         # Parse the JSON input parameter
-        inputs=$(echo "${{ inputs.supported_parameters }}" | jq -r '.')
+        parsed_json=$(echo '${{ inputs.supported_parameters }}' | jq -r '.')
 
-        # Output the inputs value
-        echo "::set-output name=inputs::$inputs"
+        # Output the json input value
+        echo "json_input=$parsed_json" >> "$GITHUB_OUTPUT"
       shell: bash
 
     - name: Automated Version Bump
@@ -38,8 +38,8 @@ runs:
       env:
         GITHUB_TOKEN: ${{ inputs.repo_token }}
       with:
-        tag-prefix: ${{ steps.json-input.outputs.inputs.tag-prefix }}
-        tag-suffix: ${{ steps.json-input.outputs.inputs.tag-suffix }}
+        tag-prefix: ${{ steps.json-input.outputs.json_input.tag-prefix }}
+        tag-suffix: ${{ steps.json-input.outputs.json_input.tag-suffix }}
 
     - name: Sync React Native version with package.json Version
       run: npx react-native-version
@@ -54,4 +54,4 @@ runs:
       uses: marvinpinto/action-automatic-releases@latest
       with:
         repo_token: ${{ inputs.repo_token }}
-        automatic_release_tag: ${{ steps.json-input.outputs.inputs.automatic_release_tag }}
+        automatic_release_tag: ${{ steps.json-input.outputs.json_input.automatic_release_tag }}

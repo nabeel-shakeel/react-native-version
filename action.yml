@@ -30,7 +30,7 @@ runs:
         parsed_json=$(echo '${{ inputs.supported_parameters }}' | jq -r '.')
 
         # Output the json input value
-        echo "json_input=$parsed_json" >> "$GITHUB_OUTPUT"
+        echo "::set-output name=json_input::$parsed_json"
       shell: bash
 
     - name: Automated Version Bump

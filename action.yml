@@ -17,14 +17,19 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Install jq
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y jq 
+
     - name: Parse supported parameters
       id: json-input
       run: |
         # Parse the JSON input parameter
-        inputs=$(echo "${{ inputs.supported_parameters }}" | fromJSON)
+        inputs=$(echo "${{ inputs.supported_parameters }}" | jq -r '.')
 
-        # Use the parsed parameter value in a subsequent step
-        echo "Inputs: '${inputs}'."
+        # Output the inputs value
+        echo "::set-output name=inputs::$inputs"
       shell: bash
 
     - name: Automated Version Bump

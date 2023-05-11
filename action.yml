@@ -25,8 +25,8 @@ runs:
       run: npm install -g yarn
       shell: bash
 
-    - name: Install node_modules
-      run: yarn ci
+    - name: Install react-native
+      run: yarn add react-native
       shell: bash
 
     - name: Automated Version Bump

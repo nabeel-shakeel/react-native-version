@@ -21,7 +21,7 @@ runs:
       id: json-input
       run: |
         # Using @actions/core package to use the fromJson function
-        npm install @actions/core
+        npm install -g @actions/core
 
         # Parsing the JSON input parameter
         inputs=$(echo "${{ inputs.supported_parameters }}" | npx @actions/core/lib/parser.js -j)

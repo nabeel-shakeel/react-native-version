@@ -23,9 +23,11 @@ runs:
     
     - name: Install yarn
       run: npm install -g yarn
+      shell: bash
 
     - name: Install node_modules
       run: yarn ci
+      shell: bash
 
     - name: Automated Version Bump
       uses: paramsinghvc/gh-action-bump-version@master

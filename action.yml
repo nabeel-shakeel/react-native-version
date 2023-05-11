@@ -13,22 +13,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-    
-    - name: Use Node.js 18
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18
-    
-    - name: Install yarn
-      run: npm install -g yarn
-      shell: bash
-
-    - name: Install react-native
-      run: yarn add react-native
-      shell: bash
-
     - name: Automated Version Bump
       uses: paramsinghvc/gh-action-bump-version@master
       env:

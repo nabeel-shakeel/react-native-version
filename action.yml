@@ -20,6 +20,12 @@ runs:
       uses: actions/setup-node@v3
       with:
         node-version: 18
+    
+    - name: Install yarn
+      run: npm install -g yarn
+
+    - name: Install node_modules
+      run: yarn ci
 
     - name: Automated Version Bump
       uses: paramsinghvc/gh-action-bump-version@master

@@ -17,13 +17,14 @@ inputs:
 runs:
   using: "composite"
   steps:
-  
+
     - name: Parse supported parameters
       id: json-input
       run: |
         # Parse the JSON input parameters
         inputs=$(echo "${{ inputs.my-supported_parameters }}" | fromJson)
         echo "Input parameters - '${inputs}'."
+      shell: bash
 
     - name: Automated Version Bump
       uses: paramsinghvc/gh-action-bump-version@master

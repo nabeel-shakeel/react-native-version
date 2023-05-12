@@ -18,10 +18,10 @@ runs:
   steps:
     - name: Parse supported parameters
       id: json-input
-      run: node index.js
+      run: echo "Parsing json input"
       shell: bash
-      env:
-        INPUT_JSON: ${{ toJSON(inputs.supported_parameters) }}
+      outputs:
+        parsed-json: ${{ toJSON(inputs.supported_parameters) }}
     
     - name: Automated Version Bump
       uses: paramsinghvc/gh-action-bump-version@master

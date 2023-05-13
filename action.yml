@@ -31,7 +31,7 @@ runs:
     - name: Commit Version Sync Changes
       uses: EndBug/add-and-commit@v9
       with:
-        message: ${{ github.event.inputs.commit-message }}
+        message: ${{ fromJSON(inputs.supported_parameters)['message'] || 'chore:react native - android & ios versions updated' }}
 
     - name: Create Automated Release
       uses: marvinpinto/action-automatic-releases@latest

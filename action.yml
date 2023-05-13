@@ -21,7 +21,7 @@ runs:
       env:
         GITHUB_TOKEN: ${{ inputs.repo_token }}
       with:
-        tag-prefix: ${{ toJSON(inputs.supported_parameters).tag-prefix }}
+        tag-prefix: ${{ fromJSON(inputs.supported_parameters).tag-prefix }}
         tag-suffix: ${{ inputs.supported_parameters.tag-suffix }}
 
     - name: Sync React Native version with package.json Version
